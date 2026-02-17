@@ -166,22 +166,22 @@ const MODELS = {
   clasico: {
     label: 'Clasico',
     desc:  'Titulo arriba, equipos abajo',
-    icon:  '[ T ]\n[A vs B]'
+    icon:  '[ TITULO ]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n[A] vs [B]'
   },
-  epico: {
-    label: 'Epico',
-    desc:  'Titulo grande y dramatico',
-    icon:  '[  T  ]\n[A vs B]'
+  invertido: {
+    label: 'Invertido',
+    desc:  'Equipos arriba, titulo abajo',
+    icon:  '[A] vs [B]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n[ TITULO ]'
   },
   versus: {
-    label: 'Versus',
-    desc:  'Foco en los equipos',
-    icon:  '[A] VS [B]\n[ T ]'
+    label: 'Duelo',
+    desc:  'Logos gigantes, duelo central',
+    icon:  '(A)  VS  (B)\n[ titulo ]'
   },
-  compacto: {
-    label: 'Compacto',
-    desc:  'Todo centrado y ajustado',
-    icon:  '[ T ]\n[AvB]'
+  cinematico: {
+    label: 'Cinematico',
+    desc:  'Estilo pelicula, dramatico',
+    icon:  '  A    B  \n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n[ TITULO ]'
   }
 };
 
@@ -796,6 +796,9 @@ function downloadPoster() {
   poster.style.width    = '520px';
   poster.style.maxWidth = '520px';
 
+  // Sanitizar colores oklch que html2canvas no soporta
+  const savedColors = sanitizeColorsForCapture(poster);
+
   html2canvas(poster, {
     scale:           state.exportScale,
     useCORS:         true,
@@ -816,6 +819,9 @@ function downloadPoster() {
       'error'
     );
   }).finally(() => {
+    // Restaurar colores oklch sanitizados
+    restoreSanitizedColors(savedColors);
+
     // Restaurar estilos
     savedGold.forEach(s => {
       s.el.style.background          = s.bg;
@@ -938,4 +944,83 @@ function hslToHex(h, s, l) {
     return Math.round(255 * c).toString(16).padStart(2, '0');
   };
   return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+// -- Sanitización oklch para html2canvas --
+
+function oklchToRgba(colorStr) {
+  try {
+    const cvs = document.createElement('canvas');
+    cvs.width = 1; cvs.height = 1;
+    const ctx = cvs.getContext('2d');
+    ctx.clearRect(0, 0, 1, 1);
+    ctx.fillStyle = colorStr;
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+    if (a === 0) return 'transparent';
+    return `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
+  } catch (_e) {
+    return '#000000';
+  }
+}
+
+function sanitizeColorsForCapture(root) {
+  const saved = [];
+  const COLOR_PROPS = [
+    'color', 'background-color', 'border-color',
+    'border-top-color', 'border-right-color',
+    'border-bottom-color', 'border-left-color',
+    'outline-color', 'text-decoration-color', 'column-rule-color',
+    'caret-color'
+  ];
+
+  const elements = [root, ...root.querySelectorAll('*')];
+  elements.forEach(element => {
+    const cs = getComputedStyle(element);
+    const originals = {};
+    let needsSave = false;
+
+    COLOR_PROPS.forEach(prop => {
+      try {
+        const val = cs.getPropertyValue(prop);
+        if (val && val.includes('oklch')) {
+          originals[prop] = element.style.getPropertyValue(prop);
+          element.style.setProperty(prop, oklchToRgba(val));
+          needsSave = true;
+        }
+      } catch (_e) { /* skip */ }
+    });
+
+    // Also check box-shadow and text-shadow for oklch
+    ['box-shadow', 'text-shadow'].forEach(prop => {
+      try {
+        const val = cs.getPropertyValue(prop);
+        if (val && val.includes('oklch')) {
+          originals[prop] = element.style.getPropertyValue(prop);
+          // Replace oklch(...) occurrences in the shadow string
+          const fixed = val.replace(/oklch\([^)]+\)/g, m => oklchToRgba(m));
+          element.style.setProperty(prop, fixed);
+          needsSave = true;
+        }
+      } catch (_e) { /* skip */ }
+    });
+
+    if (needsSave) {
+      saved.push({ element, originals });
+    }
+  });
+
+  return saved;
+}
+
+function restoreSanitizedColors(saved) {
+  saved.forEach(({ element, originals }) => {
+    Object.entries(originals).forEach(([prop, val]) => {
+      if (val) {
+        element.style.setProperty(prop, val);
+      } else {
+        element.style.removeProperty(prop);
+      }
+    });
+  });
 }
