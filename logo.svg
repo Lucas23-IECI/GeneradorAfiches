@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd88a"/>
+      <stop offset="50%" stop-color="#f0b43a"/>
+      <stop offset="100%" stop-color="#b8771f"/>
+    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#060914"/>
+      <stop offset="100%" stop-color="#1a2f6b"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="200" rx="20" fill="url(#bg)"/>
+  <rect width="800" height="200" rx="20" stroke="url(#gold)" stroke-width="1.5" fill="none" opacity=".4"/>
+  
+  <!-- Vignette overlay -->
+  <rect width="800" height="200" rx="20" fill="url(#bg)" opacity=".15"/>
+  
+  <!-- Stars decoration -->
+  <g fill="url(#gold)" font-size="16" opacity=".7">
+    <text x="200" y="30">★</text>
+    <text x="370" y="25">★</text>
+    <text x="420" y="25">★</text>
+    <text x="540" y="30">★</text>
+  </g>
+
+  <!-- Tiger icon (stylized) -->
+  <g transform="translate(60, 40)" filter="url(#glow)">
+    <!-- Shield shape -->
+    <path d="M60 0 L105 15 L105 75 Q105 110 60 120 Q15 110 15 75 L15 15 Z" 
+          fill="url(#bg)" stroke="url(#gold)" stroke-width="2"/>
+    <!-- Tiger stripes -->
+    <g stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" opacity=".9">
+      <path d="M40 30 L52 45"/>
+      <path d="M80 30 L68 45"/>
+      <path d="M35 50 L50 58"/>
+      <path d="M85 50 L70 58"/>
+      <path d="M38 70 L52 72"/>
+      <path d="M82 70 L68 72"/>
+    </g>
+    <!-- Tiger eyes -->
+    <circle cx="45" cy="50" r="4" fill="url(#gold)"/>
+    <circle cx="75" cy="50" r="4" fill="url(#gold)"/>
+    <!-- Tiger nose/mouth -->
+    <path d="M55 65 L60 70 L65 65" stroke="url(#gold)" stroke-width="2" fill="none"/>
+    <!-- Football at bottom of shield -->
+    <ellipse cx="60" cy="95" rx="12" ry="10" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+    <path d="M52 90 Q60 100 68 90" stroke="url(#gold)" stroke-width="1" fill="none"/>
+    <path d="M54 100 Q60 92 66 100" stroke="url(#gold)" stroke-width="1" fill="none"/>
+  </g>
+
+  <!-- Main Title -->
+  <g filter="url(#glow)">
+    <text x="195" y="95" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" 
+          font-size="52" fill="url(#gold)" letter-spacing="3">
+      GENERADOR
+    </text>
+    <text x="195" y="148" font-family="'Segoe UI', Arial, sans-serif" font-weight="900" 
+          font-size="42" fill="#eaf0ff" letter-spacing="6" opacity=".92">
+      DE AFICHES
+    </text>
+  </g>
+  
+  <!-- Football emoji -->
+  <text x="630" y="110" font-size="60" opacity=".8">⚽</text>
+
+  <!-- Subtitle -->
+  <g opacity=".6">
+    <rect x="195" y="160" width="280" height="22" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+    <text x="210" y="176" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" 
+          font-size="10" fill="#eaf0ff" letter-spacing="3">
+      DEPORTIVOS · PREMIUM · FÁCIL
+    </text>
+  </g>
+  
+  <!-- Decorative line -->
+  <line x1="195" y1="55" x2="620" y2="55" stroke="url(#gold)" stroke-width="1" opacity=".25"/>
+</svg>

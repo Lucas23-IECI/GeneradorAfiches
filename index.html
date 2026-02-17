@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>⚽ Generador de Afiches Deportivos</title>
+
+  <!-- Google Fonts (Bebas Neue, Montserrat, Inter, Oswald) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Montserrat:wght@400;600;700;800&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PANEL DE CONTROLES (izquierda / arriba en mobile)
+         ═══════════════════════════════════════════════════════════ -->
+    <aside class="panel" id="panel">
+      <div class="panel__header">
+        <h1 class="panel__title">⚽ Generador de Afiches</h1>
+        <p class="panel__subtitle">Creá tu afiche deportivo en segundos</p>
+      </div>
+
+      <div class="panel__scroll">
+
+        <!-- ACCIONES RÁPIDAS -->
+        <section class="panel__section">
+          <h2 class="section__title">🚀 Acciones rápidas</h2>
+          <div class="quick-actions">
+            <button class="btn-action btn-action--template" onclick="loadTemplate()">
+              📋 Plantilla Tigre vs Ferro
+            </button>
+            <button class="btn-action btn-action--new" onclick="newMatch()">
+              ✨ Nuevo partido
+            </button>
+            <button class="btn-action btn-action--dup" onclick="duplicateMatch()">
+              📄 Duplicar (cambiar fecha)
+            </button>
+            <button class="btn-action btn-action--reset" onclick="resetAll()">
+              🗑️ Borrar todo
+            </button>
+          </div>
+        </section>
+
+        <!-- TEXTOS DEL PARTIDO -->
+        <section class="panel__section">
+          <h2 class="section__title">📝 Textos del partido</h2>
+
+          <label class="field">
+            <span class="field__label">Encabezado (torneo / evento)</span>
+            <input type="text" id="input-kicker" class="field__input"
+                   placeholder="Ej: PARTIDO RECOPA 2026" oninput="updateFromInput()" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Título línea 1</span>
+            <input type="text" id="input-title1" class="field__input"
+                   placeholder="Ej: AÑOS" oninput="updateFromInput()" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Título línea 2</span>
+            <input type="text" id="input-title2" class="field__input"
+                   placeholder="Ej: DORADOS" oninput="updateFromInput()" />
+          </label>
+
+          <div class="field-row">
+            <label class="field field--half">
+              <span class="field__label">Fecha</span>
+              <input type="text" id="input-fecha" class="field__input"
+                     placeholder="Ej: DOMINGO 15/02" oninput="updateFromInput()" />
+            </label>
+            <label class="field field--half">
+              <span class="field__label">Hora</span>
+              <input type="text" id="input-hora" class="field__input"
+                     placeholder="Ej: 17:00" oninput="updateFromInput()" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field__label">Cancha / Lugar</span>
+            <input type="text" id="input-cancha" class="field__input"
+                   placeholder="Ej: CANCHA CHIGUAYANTE SUR" oninput="updateFromInput()" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Organiza / Auspicia (opcional)</span>
+            <input type="text" id="input-organiza" class="field__input"
+                   placeholder="Ej: Organiza Club Tigre" oninput="updateFromInput()" />
+          </label>
+        </section>
+
+        <!-- EQUIPOS -->
+        <section class="panel__section">
+          <h2 class="section__title">🏆 Equipos</h2>
+
+          <!-- Equipo A -->
+          <div class="team-config">
+            <h3 class="team-config__title">⬅️ Equipo A (izquierda)</h3>
+            <label class="field">
+              <span class="field__label">Nombre</span>
+              <input type="text" id="input-teamA-name" class="field__input"
+                     placeholder="Ej: TIGRE" oninput="updateFromInput()" />
+            </label>
+            <label class="field">
+              <span class="field__label">Ciudad</span>
+              <input type="text" id="input-teamA-city" class="field__input"
+                     placeholder="Ej: Hualqui" oninput="updateFromInput()" />
+            </label>
+            <div class="logo-upload">
+              <span class="field__label">Logo</span>
+              <div class="logo-upload__row">
+                <img id="preview-logo-a" class="logo-upload__preview" src="Foto1.png" alt="Logo equipo A" />
+                <label class="btn-upload">
+                  📁 Cambiar logo
+                  <input type="file" accept="image/*" onchange="handleLogoUpload('a', this)" hidden />
+                </label>
+                <button class="btn-upload btn-upload--default" onclick="resetLogo('a')">↩️ Default</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Equipo B -->
+          <div class="team-config">
+            <h3 class="team-config__title">➡️ Equipo B (derecha)</h3>
+            <label class="field">
+              <span class="field__label">Nombre</span>
+              <input type="text" id="input-teamB-name" class="field__input"
+                     placeholder="Ej: FERRO" oninput="updateFromInput()" />
+            </label>
+            <label class="field">
+              <span class="field__label">Ciudad</span>
+              <input type="text" id="input-teamB-city" class="field__input"
+                     placeholder="Ej: Chiguayante" oninput="updateFromInput()" />
+            </label>
+            <div class="logo-upload">
+              <span class="field__label">Logo</span>
+              <div class="logo-upload__row">
+                <img id="preview-logo-b" class="logo-upload__preview" src="Foto2.png" alt="Logo equipo B" />
+                <label class="btn-upload">
+                  📁 Cambiar logo
+                  <input type="file" accept="image/*" onchange="handleLogoUpload('b', this)" hidden />
+                </label>
+                <button class="btn-upload btn-upload--default" onclick="resetLogo('b')">↩️ Default</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FONDO -->
+        <section class="panel__section">
+          <h2 class="section__title">🖼️ Fondo del afiche</h2>
+          <div class="bg-grid" id="bg-grid">
+            <!-- Generado por JS -->
+          </div>
+          <label class="btn-upload btn-upload--full">
+            📁 Subir imagen propia como fondo
+            <input type="file" accept="image/*" onchange="handleBgUpload(this)" hidden />
+          </label>
+        </section>
+
+        <!-- ESTILO Y COLORES -->
+        <section class="panel__section">
+          <h2 class="section__title">🎨 Estilo y colores</h2>
+
+          <span class="field__label">Modo de color</span>
+          <div class="theme-grid" id="theme-grid">
+            <!-- Generado por JS -->
+          </div>
+
+          <label class="field">
+            <span class="field__label">Color principal (accent)</span>
+            <div class="color-row">
+              <input type="color" id="input-accent" class="field__color"
+                     oninput="updateAccent(this.value)" />
+              <input type="text" id="input-accent-hex" class="field__input field__input--hex"
+                     placeholder="#f0b43a" oninput="updateAccentFromHex(this.value)" />
+            </div>
+          </label>
+
+          <span class="field__label">Tipografía</span>
+          <div class="font-grid" id="font-grid">
+            <!-- Generado por JS -->
+          </div>
+        </section>
+
+        <!-- EXPORTAR -->
+        <section class="panel__section">
+          <h2 class="section__title">💾 Exportar</h2>
+
+          <label class="field">
+            <span class="field__label">Calidad de imagen</span>
+            <div class="scale-selector" id="scale-selector">
+              <button class="scale-btn" data-scale="2" onclick="setScale(2)">2x (buena)</button>
+              <button class="scale-btn" data-scale="3" onclick="setScale(3)">3x (mejor)</button>
+              <button class="scale-btn" data-scale="4" onclick="setScale(4)">4x (máxima)</button>
+            </div>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Nombre del archivo (opcional)</span>
+            <input type="text" id="input-filename" class="field__input"
+                   placeholder="Se genera automáticamente" oninput="updateFromInput()" />
+          </label>
+        </section>
+
+      </div><!-- /.panel__scroll -->
+
+      <!-- BOTÓN GUARDAR — siempre visible al fondo del panel -->
+      <div class="panel__footer">
+        <button id="btn-download" class="btn-download" onclick="downloadPoster()">
+          📸 GUARDAR FOTO
+        </button>
+        <div id="download-status" class="download-status" hidden></div>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PREVIEW DEL AFICHE (derecha / abajo en mobile)
+         ═══════════════════════════════════════════════════════════ -->
+    <main class="preview-area">
+      <div class="preview-wrapper">
+
+        <section id="poster" class="poster" role="img"
+                 aria-label="Vista previa del afiche deportivo">
+
+          <!-- Estrellas decorativas -->
+          <div class="top-badges" aria-hidden="true">
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+          </div>
+
+          <header class="header">
+            <p class="kicker" id="poster-kicker">PARTIDO RECOPA 2026</p>
+            <h1 class="title">
+              <span class="title--gold" id="poster-title1">AÑOS</span>
+              <span class="title--light" id="poster-title2">DORADOS</span>
+            </h1>
+            <div class="meta">
+              <div class="pill">
+                <span class="pill__value" id="poster-fecha">DOMINGO 15/02</span>
+              </div>
+              <div class="pill">
+                <span class="pill__label">Hora</span>
+                <span class="pill__value" id="poster-hora">17:00</span>
+              </div>
+            </div>
+            <p class="subtitle" id="poster-cancha">CANCHA CHIGUAYANTE SUR</p>
+          </header>
+
+          <div class="divider" aria-hidden="true"></div>
+
+          <section class="matchup" aria-label="Enfrentamiento">
+            <article class="team team--left">
+              <div class="logo-frame">
+                <img class="logo" id="poster-logo-a" src="Foto1.png" alt="Logo equipo A" />
+              </div>
+              <h2 class="team-name" id="poster-teamA-name">TIGRE</h2>
+              <p class="team-city" id="poster-teamA-city">Hualqui</p>
+            </article>
+
+            <div class="vs" aria-label="versus">
+              <div class="vs-badge" id="poster-vs">VS</div>
+              <span class="vs-glow" aria-hidden="true"></span>
+            </div>
+
+            <article class="team team--right">
+              <div class="logo-frame">
+                <img class="logo" id="poster-logo-b" src="Foto2.png" alt="Logo equipo B" />
+              </div>
+              <h2 class="team-name" id="poster-teamB-name">FERRO</h2>
+              <p class="team-city" id="poster-teamB-city">Chiguayante</p>
+            </article>
+          </section>
+
+          <!-- Footer: organiza / auspicia (visible si se completa) -->
+          <footer class="poster-footer" id="poster-footer" hidden>
+            <p class="poster-footer__text" id="poster-organiza"></p>
+          </footer>
+
+          <!-- ── Overlays premium ── -->
+          <span class="grain" aria-hidden="true"></span>
+          <span class="vignette" aria-hidden="true"></span>
+          <span class="stadium-lights left" aria-hidden="true"></span>
+          <span class="stadium-lights right" aria-hidden="true"></span>
+          <span class="pitch" aria-hidden="true"></span>
+          <span class="fog" aria-hidden="true"></span>
+        </section>
+
+      </div>
+
+      <!-- Botón download fijo en mobile -->
+      <button id="btn-download-mobile" class="btn-download btn-download--mobile" onclick="downloadPoster()">
+        📸 GUARDAR FOTO
+      </button>
+    </main>
+
+  </div><!-- /.app -->
+
+  <!-- html2canvas para exportar -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
