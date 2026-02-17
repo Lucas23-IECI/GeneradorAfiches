@@ -654,7 +654,7 @@ body {
 
 .poster {
   position: relative;
-  width: min(520px, 96vw);
+  width: min(420px, 80vw);
   aspect-ratio: 3 / 5;
   border-radius: var(--radius);
   overflow: hidden;
@@ -1253,7 +1253,7 @@ body {
   }
 
   .poster {
-    width: min(520px, 96vw);
+    width: min(420px, 90vw);
   }
 
   .btn-download--mobile {

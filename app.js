@@ -796,8 +796,8 @@ function downloadPoster() {
   poster.style.width    = '520px';
   poster.style.maxWidth = '520px';
 
-  // Sanitizar colores oklch que html2canvas no soporta
-  const savedColors = sanitizeColorsForCapture(poster);
+  // Monkey-patch getComputedStyle para interceptar oklch antes de que html2canvas lo lea
+  const _origGCS = patchGetComputedStyleForCapture();
 
   html2canvas(poster, {
     scale:           state.exportScale,
@@ -819,8 +819,8 @@ function downloadPoster() {
       'error'
     );
   }).finally(() => {
-    // Restaurar colores oklch sanitizados
-    restoreSanitizedColors(savedColors);
+    // Restaurar getComputedStyle original
+    window.getComputedStyle = _origGCS;
 
     // Restaurar estilos
     savedGold.forEach(s => {
@@ -946,81 +946,58 @@ function hslToHex(h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
-// -- Sanitización oklch para html2canvas --
+// -- Parche getComputedStyle para convertir oklch → rgb (html2canvas fix) --
 
-function oklchToRgba(colorStr) {
+function _oklchToRgb(oklchStr) {
   try {
-    const cvs = document.createElement('canvas');
-    cvs.width = 1; cvs.height = 1;
-    const ctx = cvs.getContext('2d');
+    const c = document.createElement('canvas');
+    c.width = 1; c.height = 1;
+    const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, 1, 1);
-    ctx.fillStyle = colorStr;
+    ctx.fillStyle = oklchStr;
     ctx.fillRect(0, 0, 1, 1);
     const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
     if (a === 0) return 'transparent';
-    return `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
+    return a < 255
+      ? `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`
+      : `rgb(${r}, ${g}, ${b})`;
   } catch (_e) {
-    return '#000000';
+    return 'rgb(0, 0, 0)';
   }
 }
 
-function sanitizeColorsForCapture(root) {
-  const saved = [];
-  const COLOR_PROPS = [
-    'color', 'background-color', 'border-color',
-    'border-top-color', 'border-right-color',
-    'border-bottom-color', 'border-left-color',
-    'outline-color', 'text-decoration-color', 'column-rule-color',
-    'caret-color'
-  ];
-
-  const elements = [root, ...root.querySelectorAll('*')];
-  elements.forEach(element => {
-    const cs = getComputedStyle(element);
-    const originals = {};
-    let needsSave = false;
-
-    COLOR_PROPS.forEach(prop => {
-      try {
-        const val = cs.getPropertyValue(prop);
-        if (val && val.includes('oklch')) {
-          originals[prop] = element.style.getPropertyValue(prop);
-          element.style.setProperty(prop, oklchToRgba(val));
-          needsSave = true;
-        }
-      } catch (_e) { /* skip */ }
-    });
-
-    // Also check box-shadow and text-shadow for oklch
-    ['box-shadow', 'text-shadow'].forEach(prop => {
-      try {
-        const val = cs.getPropertyValue(prop);
-        if (val && val.includes('oklch')) {
-          originals[prop] = element.style.getPropertyValue(prop);
-          // Replace oklch(...) occurrences in the shadow string
-          const fixed = val.replace(/oklch\([^)]+\)/g, m => oklchToRgba(m));
-          element.style.setProperty(prop, fixed);
-          needsSave = true;
-        }
-      } catch (_e) { /* skip */ }
-    });
-
-    if (needsSave) {
-      saved.push({ element, originals });
-    }
-  });
-
-  return saved;
+function _fixOklch(val) {
+  if (typeof val !== 'string' || !val.includes('oklch')) return val;
+  return val.replace(/oklch\([^)]+\)/gi, m => _oklchToRgb(m));
 }
 
-function restoreSanitizedColors(saved) {
-  saved.forEach(({ element, originals }) => {
-    Object.entries(originals).forEach(([prop, val]) => {
-      if (val) {
-        element.style.setProperty(prop, val);
-      } else {
-        element.style.removeProperty(prop);
+function patchGetComputedStyleForCapture() {
+  const original = window.getComputedStyle;
+
+  window.getComputedStyle = function (elt, pseudoElt) {
+    const cs = original.call(window, elt, pseudoElt);
+
+    return new Proxy(cs, {
+      get(target, prop, receiver) {
+        // getPropertyValue — usado internamente por html2canvas
+        if (prop === 'getPropertyValue') {
+          return function (name) {
+            return _fixOklch(target.getPropertyValue(name));
+          };
+        }
+
+        const v = target[prop];
+
+        // Propiedades string → limpiar oklch
+        if (typeof v === 'string') return _fixOklch(v);
+
+        // Funciones → bindear al target original
+        if (typeof v === 'function') return v.bind(target);
+
+        return v;
       }
     });
-  });
+  };
+
+  return original; // para restaurar después
 }
