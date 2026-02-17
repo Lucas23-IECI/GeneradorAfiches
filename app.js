@@ -28,20 +28,21 @@ const DEFAULT_STATE = {
   tema:        'dorado',
   accentColor: '#f0b43a',
   fuente:      'bebas-montserrat',
+  modelo:      'clasico',
   exportScale: 2,
   fileName:    ''
 };
 
 const BACKGROUNDS = [
   { file: 'FutbolBackground3.png', label: 'Estadio Nocturno' },
-  { file: 'FutbolBackground1.png', label: 'Fútbol Clásico 1' },
-  { file: 'FutbolBackground2.png', label: 'Fútbol Clásico 2' },
+  { file: 'FutbolBackground1.png', label: 'Futbol Clasico 1' },
+  { file: 'FutbolBackground2.png', label: 'Futbol Clasico 2' },
   { file: 'Partido_Recopa_2026.jpg', label: 'Recopa 2026' }
 ];
 
 const THEMES = {
   dorado: {
-    label: '🌙 Nocturno Dorado',
+    label: 'Nocturno Dorado',
     gold1: '#ffd88a', gold2: '#f0b43a', gold3: '#b8771f',
     bg: '#060914',
     bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #1a2f6b 0%, #060914 62%, #04050c 100%)',
@@ -50,7 +51,7 @@ const THEMES = {
     preview: ['#060914', '#1a2f6b', '#f0b43a']
   },
   rojo: {
-    label: '🔴 Rojo Intenso',
+    label: 'Rojo Intenso',
     gold1: '#ffb3b3', gold2: '#e63946', gold3: '#9b1b30',
     bg: '#140404',
     bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #6b1a1a 0%, #140404 62%, #0c0404 100%)',
@@ -59,15 +60,72 @@ const THEMES = {
     preview: ['#140404', '#6b1a1a', '#e63946']
   },
   azul: {
-    label: '🔵 Azul Limpio',
+    label: 'Azul Limpio',
     gold1: '#b3d9ff', gold2: '#4a9eff', gold3: '#1a5bb8',
     bg: '#040914',
     bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #1a4f9b 0%, #040914 62%, #020508 100%)',
     ink: '#f0f6ff',
     card: 'rgba(10, 18, 38, .55)',
     preview: ['#040914', '#1a4f9b', '#4a9eff']
+  },
+  verde: {
+    label: 'Verde Cancha',
+    gold1: '#b3ffb3', gold2: '#2ecc71', gold3: '#1a8b4a',
+    bg: '#041404',
+    bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #1a6b2f 0%, #041404 62%, #020c04 100%)',
+    ink: '#f0fff0',
+    card: 'rgba(10, 28, 14, .55)',
+    preview: ['#041404', '#1a6b2f', '#2ecc71']
+  },
+  violeta: {
+    label: 'Violeta VIP',
+    gold1: '#e0b3ff', gold2: '#9b59b6', gold3: '#6a2d84',
+    bg: '#0c0414',
+    bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #4a1a6b 0%, #0c0414 62%, #08020c 100%)',
+    ink: '#f6f0ff',
+    card: 'rgba(20, 10, 32, .55)',
+    preview: ['#0c0414', '#4a1a6b', '#9b59b6']
+  },
+  naranja: {
+    label: 'Naranja Fuego',
+    gold1: '#ffe0b3', gold2: '#e67e22', gold3: '#a85515',
+    bg: '#140a04',
+    bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #6b3a1a 0%, #140a04 62%, #0c0602 100%)',
+    ink: '#fff5f0',
+    card: 'rgba(28, 16, 10, .55)',
+    preview: ['#140a04', '#6b3a1a', '#e67e22']
+  },
+  blanco: {
+    label: 'Blanco y Negro',
+    gold1: '#555555', gold2: '#222222', gold3: '#000000',
+    bg: '#f0f0f0',
+    bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #d8d8d8 0%, #f0f0f0 62%, #ffffff 100%)',
+    ink: '#1a1a1a',
+    card: 'rgba(255, 255, 255, .55)',
+    preview: ['#f0f0f0', '#d8d8d8', '#222222']
+  },
+  cyan: {
+    label: 'Cyan Neon',
+    gold1: '#b3ffff', gold2: '#00d4ff', gold3: '#0088aa',
+    bg: '#040f14',
+    bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #0a4a5e 0%, #040f14 62%, #020a0e 100%)',
+    ink: '#f0fdff',
+    card: 'rgba(10, 24, 30, .55)',
+    preview: ['#040f14', '#0a4a5e', '#00d4ff']
+  },
+  rosa: {
+    label: 'Rosa Moderno',
+    gold1: '#ffb3d9', gold2: '#e91e90', gold3: '#a01565',
+    bg: '#140410',
+    bodyGrad: 'radial-gradient(1100px 780px at 50% 10%, #6b1a50 0%, #140410 62%, #0c020a 100%)',
+    ink: '#fff0f8',
+    card: 'rgba(28, 10, 22, .55)',
+    preview: ['#140410', '#6b1a50', '#e91e90']
   }
 };
+
+// Cuáles se muestran inicialmente (el resto se despliega con "ver más")
+const THEMES_INITIAL = 3;
 
 const FONTS = {
   'bebas-montserrat': {
@@ -84,6 +142,46 @@ const FONTS = {
     heading: '"Oswald", sans-serif',
     body: '"Montserrat", sans-serif',
     label: 'Oswald + Montserrat'
+  },
+  'playfair-lato': {
+    heading: '"Playfair Display", serif',
+    body: '"Lato", sans-serif',
+    label: 'Playfair + Lato'
+  },
+  'russo-roboto': {
+    heading: '"Russo One", sans-serif',
+    body: '"Roboto Condensed", sans-serif',
+    label: 'Russo + Roboto'
+  },
+  'anton-open': {
+    heading: '"Anton", sans-serif',
+    body: '"Open Sans", sans-serif',
+    label: 'Anton + Open Sans'
+  }
+};
+
+const FONTS_INITIAL = 3;
+
+const MODELS = {
+  clasico: {
+    label: 'Clasico',
+    desc:  'Titulo arriba, equipos abajo',
+    icon:  '[ T ]\n[A vs B]'
+  },
+  epico: {
+    label: 'Epico',
+    desc:  'Titulo grande y dramatico',
+    icon:  '[  T  ]\n[A vs B]'
+  },
+  versus: {
+    label: 'Versus',
+    desc:  'Foco en los equipos',
+    icon:  '[A] VS [B]\n[ T ]'
+  },
+  compacto: {
+    label: 'Compacto',
+    desc:  'Todo centrado y ajustado',
+    icon:  '[ T ]\n[AvB]'
   }
 };
 
@@ -93,15 +191,22 @@ const FONTS = {
 
 let state = {};
 
+// Flags de UI para "ver más" toggles
+let showAllThemes = false;
+let showAllFonts  = false;
+
 // ────────────────────────────────────────────────────────────────
 // 3. INICIALIZACIÓN
 // ────────────────────────────────────────────────────────────────
 
 function init() {
   state = loadFromLocalStorage() || deepClone(DEFAULT_STATE);
+  // Asegurar que modelo exista (para estados guardados antes de esta versión)
+  if (!state.modelo) state.modelo = 'clasico';
   buildBgGrid();
   buildThemeGrid();
   buildFontGrid();
+  buildModelGrid();
   populateInputsFromState();
   renderPoster();
   updateScaleUI();
@@ -111,7 +216,7 @@ function init() {
 document.addEventListener('DOMContentLoaded', init);
 
 // ────────────────────────────────────────────────────────────────
-// 4. SINCRONIZACIÓN INPUTS ↔ ESTADO
+// 4. SINCRONIZACIÓN INPUTS <-> ESTADO
 // ────────────────────────────────────────────────────────────────
 
 function populateInputsFromState() {
@@ -198,6 +303,9 @@ function renderPoster() {
   // Fuentes
   applyFonts();
 
+  // Modelo (layout)
+  applyModel();
+
   // Aria-label dinámico
   el('poster').setAttribute('aria-label',
     `Afiche: ${state.titleLine1} ${state.titleLine2}. ` +
@@ -270,6 +378,19 @@ function applyFonts() {
   });
 }
 
+function applyModel() {
+  const poster = el('poster');
+  // Remover todas las clases de modelo
+  Object.keys(MODELS).forEach(k => poster.classList.remove('poster--' + k));
+  // Aplicar clase del modelo actual
+  poster.classList.add('poster--' + (state.modelo || 'clasico'));
+
+  // Actualizar estados activos en model grid
+  document.querySelectorAll('.model-card').forEach(card => {
+    card.classList.toggle('model-card--active', card.dataset.model === state.modelo);
+  });
+}
+
 // ────────────────────────────────────────────────────────────────
 // 6. CONSTRUCTORES DE UI (grids / selectores)
 // ────────────────────────────────────────────────────────────────
@@ -298,9 +419,12 @@ function buildBgGrid() {
 function buildThemeGrid() {
   const grid = el('theme-grid');
   grid.innerHTML = '';
-  Object.entries(THEMES).forEach(([key, theme]) => {
+  const entries = Object.entries(THEMES);
+
+  entries.forEach(([key, theme], idx) => {
     const card = document.createElement('button');
     card.className = 'theme-card' + (state.tema === key ? ' theme-card--active' : '');
+    if (idx >= THEMES_INITIAL) card.classList.add('theme-card--extra');
     card.dataset.theme = key;
     card.onclick = () => selectTheme(key);
 
@@ -321,14 +445,27 @@ function buildThemeGrid() {
     card.appendChild(label);
     grid.appendChild(card);
   });
+
+  // Aplicar estado de toggle
+  grid.classList.toggle('grid--expanded', showAllThemes);
+
+  // Actualizar texto del botón
+  const btn = el('btn-toggle-themes');
+  if (btn) {
+    const extraCount = entries.length - THEMES_INITIAL;
+    btn.textContent = showAllThemes ? 'Ver menos' : `Ver mas (${extraCount})`;
+  }
 }
 
 function buildFontGrid() {
   const grid = el('font-grid');
   grid.innerHTML = '';
-  Object.entries(FONTS).forEach(([key, font]) => {
+  const entries = Object.entries(FONTS);
+
+  entries.forEach(([key, font], idx) => {
     const card = document.createElement('button');
     card.className = 'font-card' + (state.fuente === key ? ' font-card--active' : '');
+    if (idx >= FONTS_INITIAL) card.classList.add('font-card--extra');
     card.dataset.font = key;
     card.onclick = () => selectFont(key);
 
@@ -343,6 +480,46 @@ function buildFontGrid() {
 
     card.appendChild(sample);
     card.appendChild(label);
+    grid.appendChild(card);
+  });
+
+  // Aplicar estado de toggle
+  grid.classList.toggle('grid--expanded', showAllFonts);
+
+  // Actualizar texto del botón
+  const btn = el('btn-toggle-fonts');
+  if (btn) {
+    const extraCount = entries.length - FONTS_INITIAL;
+    btn.textContent = showAllFonts ? 'Ver menos' : `Ver mas (${extraCount})`;
+  }
+}
+
+function buildModelGrid() {
+  const grid = el('model-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  Object.entries(MODELS).forEach(([key, model]) => {
+    const card = document.createElement('button');
+    card.className = 'model-card' + (state.modelo === key ? ' model-card--active' : '');
+    card.dataset.model = key;
+    card.onclick = () => selectModel(key);
+
+    const icon = document.createElement('span');
+    icon.className = 'model-card__icon';
+    icon.textContent = model.icon;
+
+    const label = document.createElement('span');
+    label.className = 'model-card__label';
+    label.textContent = model.label;
+
+    const desc = document.createElement('span');
+    desc.className = 'model-card__desc';
+    desc.textContent = model.desc;
+
+    card.appendChild(icon);
+    card.appendChild(label);
+    card.appendChild(desc);
     grid.appendChild(card);
   });
 }
@@ -371,6 +548,12 @@ function selectTheme(key) {
 
 function selectFont(key) {
   state.fuente = key;
+  renderPoster();
+  saveToLocalStorage();
+}
+
+function selectModel(key) {
+  state.modelo = key;
   renderPoster();
   saveToLocalStorage();
 }
@@ -411,6 +594,25 @@ function updateAccentUI() {
   el('input-accent-hex').value = state.accentColor;
 }
 
+// Toggle "ver más" for themes / fonts
+function toggleThemes() {
+  showAllThemes = !showAllThemes;
+  const grid = el('theme-grid');
+  grid.classList.toggle('grid--expanded', showAllThemes);
+  const btn = el('btn-toggle-themes');
+  const extraCount = Object.keys(THEMES).length - THEMES_INITIAL;
+  btn.textContent = showAllThemes ? 'Ver menos' : `Ver mas (${extraCount})`;
+}
+
+function toggleFonts() {
+  showAllFonts = !showAllFonts;
+  const grid = el('font-grid');
+  grid.classList.toggle('grid--expanded', showAllFonts);
+  const btn = el('btn-toggle-fonts');
+  const extraCount = Object.keys(FONTS).length - FONTS_INITIAL;
+  btn.textContent = showAllFonts ? 'Ver menos' : `Ver mas (${extraCount})`;
+}
+
 // ────────────────────────────────────────────────────────────────
 // 8. SUBIDA DE ARCHIVOS
 // ────────────────────────────────────────────────────────────────
@@ -449,37 +651,49 @@ function handleBgUpload(input) {
   reader.readAsDataURL(file);
 }
 
+// FIX: resetLogo ahora también resetea el input file para que
+//      se pueda volver a subir la misma imagen después de resetear.
 function resetLogo(team) {
   if (team === 'a') {
     state.teamA_logoCustom = null;
     el('preview-logo-a').src = state.teamA_logo;
+    const inp = document.getElementById('upload-logo-a');
+    if (inp) inp.value = '';
   } else {
     state.teamB_logoCustom = null;
     el('preview-logo-b').src = state.teamB_logo;
+    const inp = document.getElementById('upload-logo-b');
+    if (inp) inp.value = '';
   }
   renderPoster();
   saveToLocalStorage();
 }
 
 // ────────────────────────────────────────────────────────────────
-// 9. ACCIONES RÁPIDAS
+// 9. ACCIONES RAPIDAS
 // ────────────────────────────────────────────────────────────────
 
 function loadTemplate() {
   state = deepClone(DEFAULT_STATE);
+  // Resetear file inputs
+  clearAllFileInputs();
   populateInputsFromState();
   buildBgGrid();
   buildThemeGrid();
   buildFontGrid();
+  buildModelGrid();
   updateScaleUI();
   updateAccentUI();
   renderPoster();
   saveToLocalStorage();
-  showStatus('✅ Plantilla Tigre vs Ferro cargada', 'success');
+  showStatus('Plantilla Tigre vs Ferro cargada', 'success');
 }
 
+// FIX: newMatch ahora mantiene Equipo A (Tigre) por defecto.
+// Solo limpia textos del partido, Equipo B y nombre de archivo.
 function newMatch() {
   state = deepClone(DEFAULT_STATE);
+  // Limpiar textos del partido
   state.kicker     = '';
   state.titleLine1 = '';
   state.titleLine2 = '';
@@ -487,15 +701,17 @@ function newMatch() {
   state.hora       = '';
   state.cancha     = '';
   state.organiza   = '';
-  state.teamA_name = '';
-  state.teamA_city = '';
+  // Equipo A se mantiene como Tigre (del DEFAULT_STATE)
+  // Solo limpiar Equipo B
   state.teamB_name = '';
   state.teamB_city = '';
+  state.teamB_logoCustom = null;
   state.fileName   = '';
+  clearAllFileInputs();
   populateInputsFromState();
   renderPoster();
   saveToLocalStorage();
-  showStatus('✨ Nuevo partido — ¡Completá los datos!', 'success');
+  showStatus('Nuevo partido — Equipo A: Tigre. Completa el resto.', 'success');
 }
 
 function duplicateMatch() {
@@ -507,21 +723,31 @@ function duplicateMatch() {
   el('input-filename').value = '';
   renderPoster();
   saveToLocalStorage();
-  showStatus('📄 Duplicado — cambiá solo fecha y hora', 'success');
+  showStatus('Duplicado — cambia solo fecha y hora', 'success');
 }
 
 function resetAll() {
-  if (!confirm('¿Borrar todo y volver al inicio?')) return;
+  if (!confirm('Borrar todo y volver al inicio?')) return;
   localStorage.removeItem('poster-state');
   state = deepClone(DEFAULT_STATE);
+  clearAllFileInputs();
   populateInputsFromState();
   buildBgGrid();
   buildThemeGrid();
   buildFontGrid();
+  buildModelGrid();
   updateScaleUI();
   updateAccentUI();
   renderPoster();
-  showStatus('🗑️ Todo borrado. Valores por defecto.', 'success');
+  showStatus('Todo borrado. Valores por defecto.', 'success');
+}
+
+// Utilidad: resetear todos los file inputs para evitar bugs de re-upload
+function clearAllFileInputs() {
+  ['upload-logo-a', 'upload-logo-b', 'upload-bg'].forEach(id => {
+    const inp = document.getElementById(id);
+    if (inp) inp.value = '';
+  });
 }
 
 // ────────────────────────────────────────────────────────────────
@@ -535,15 +761,15 @@ function downloadPoster() {
 
   // UI de carga
   btn.disabled    = true;
-  btn.textContent = '⏳ Generando imagen…';
+  btn.textContent = 'Generando imagen...';
   if (btnMobile) {
     btnMobile.disabled    = true;
-    btnMobile.textContent = '⏳ Generando…';
+    btnMobile.textContent = 'Generando...';
   }
 
   const poster = el('poster');
 
-  // ① Workaround: background-clip:text no exporta bien en html2canvas
+  // Workaround: background-clip:text no exporta bien en html2canvas
   const goldEls    = poster.querySelectorAll('.title--gold');
   const savedGold  = [];
   goldEls.forEach(elem => {
@@ -564,7 +790,7 @@ function downloadPoster() {
     elem.style.filter               = 'none';
   });
 
-  // ② Forzar ancho fijo para captura consistente
+  // Forzar ancho fijo para captura consistente
   const origW        = poster.style.width;
   const origMaxW     = poster.style.maxWidth;
   poster.style.width    = '520px';
@@ -582,15 +808,15 @@ function downloadPoster() {
     link.download = name.endsWith('.jpg') ? name : name + '.jpg';
     link.href     = canvas.toDataURL('image/jpeg', 0.92);
     link.click();
-    showStatus('✅ ¡Listo! Se descargó el afiche', 'success');
+    showStatus('Listo! Se descargo el afiche', 'success');
   }).catch(err => {
     console.error('Export error:', err);
     showStatus(
-      '❌ No se pudo exportar. Si abriste el archivo como file:// probá abrirlo con Live Server o usar Firefox.',
+      'No se pudo exportar. Si abriste el archivo como file:// proba abrirlo con Live Server o usar Firefox.',
       'error'
     );
   }).finally(() => {
-    // ③ Restaurar estilos
+    // Restaurar estilos
     savedGold.forEach(s => {
       s.el.style.background          = s.bg;
       s.el.style.webkitBackgroundClip = s.clip;
@@ -606,7 +832,7 @@ function downloadPoster() {
     btn.textContent = origText;
     if (btnMobile) {
       btnMobile.disabled    = false;
-      btnMobile.textContent = '📸 GUARDAR FOTO';
+      btnMobile.textContent = 'GUARDAR FOTO';
     }
   });
 }
@@ -674,7 +900,7 @@ function showStatus(msg, type) {
   showStatus._t = setTimeout(() => { s.hidden = true; }, 5000);
 }
 
-// ── Colores ──
+// -- Colores --
 
 function computeAccentColors(hex) {
   const hsl = hexToHSL(hex);

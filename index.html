@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>⚽ Generador de Afiches Deportivos</title>
+  <title>Generador de Afiches Deportivos</title>
 
-  <!-- Google Fonts (Bebas Neue, Montserrat, Inter, Oswald) -->
+  <!-- Google Fonts (Bebas Neue, Montserrat, Inter, Oswald, Playfair Display, Lato, Russo One, Roboto Condensed, Anton, Open Sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Montserrat:wght@400;600;700;800&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Lato:wght@400;700;900&family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700;800&family=Oswald:wght@400;600;700&family=Playfair+Display:wght@400;700;900&family=Roboto+Condensed:wght@400;700&family=Russo+One&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -22,34 +22,34 @@
          ═══════════════════════════════════════════════════════════ -->
     <aside class="panel" id="panel">
       <div class="panel__header">
-        <h1 class="panel__title">⚽ Generador de Afiches</h1>
-        <p class="panel__subtitle">Creá tu afiche deportivo en segundos</p>
+        <h1 class="panel__title">Generador de Afiches</h1>
+        <p class="panel__subtitle">Crea tu afiche deportivo en segundos</p>
       </div>
 
       <div class="panel__scroll">
 
-        <!-- ACCIONES RÁPIDAS -->
+        <!-- ACCIONES RAPIDAS -->
         <section class="panel__section">
-          <h2 class="section__title">🚀 Acciones rápidas</h2>
+          <h2 class="section__title">Acciones rapidas</h2>
           <div class="quick-actions">
             <button class="btn-action btn-action--template" onclick="loadTemplate()">
-              📋 Plantilla Tigre vs Ferro
+              Plantilla Tigre vs Ferro
             </button>
             <button class="btn-action btn-action--new" onclick="newMatch()">
-              ✨ Nuevo partido
+              Nuevo partido
             </button>
             <button class="btn-action btn-action--dup" onclick="duplicateMatch()">
-              📄 Duplicar (cambiar fecha)
+              Duplicar (cambiar fecha)
             </button>
             <button class="btn-action btn-action--reset" onclick="resetAll()">
-              🗑️ Borrar todo
+              Borrar todo
             </button>
           </div>
         </section>
 
         <!-- TEXTOS DEL PARTIDO -->
         <section class="panel__section">
-          <h2 class="section__title">📝 Textos del partido</h2>
+          <h2 class="section__title">Textos del partido</h2>
 
           <label class="field">
             <span class="field__label">Encabezado (torneo / evento)</span>
@@ -58,13 +58,13 @@
           </label>
 
           <label class="field">
-            <span class="field__label">Título línea 1</span>
+            <span class="field__label">Titulo linea 1</span>
             <input type="text" id="input-title1" class="field__input"
-                   placeholder="Ej: AÑOS" oninput="updateFromInput()" />
+                   placeholder="Ej: ANIOS" oninput="updateFromInput()" />
           </label>
 
           <label class="field">
-            <span class="field__label">Título línea 2</span>
+            <span class="field__label">Titulo linea 2</span>
             <input type="text" id="input-title2" class="field__input"
                    placeholder="Ej: DORADOS" oninput="updateFromInput()" />
           </label>
@@ -97,11 +97,11 @@
 
         <!-- EQUIPOS -->
         <section class="panel__section">
-          <h2 class="section__title">🏆 Equipos</h2>
+          <h2 class="section__title">Equipos</h2>
 
           <!-- Equipo A -->
           <div class="team-config">
-            <h3 class="team-config__title">⬅️ Equipo A (izquierda)</h3>
+            <h3 class="team-config__title">Equipo A (izquierda)</h3>
             <label class="field">
               <span class="field__label">Nombre</span>
               <input type="text" id="input-teamA-name" class="field__input"
@@ -117,17 +117,17 @@
               <div class="logo-upload__row">
                 <img id="preview-logo-a" class="logo-upload__preview" src="Foto1.png" alt="Logo equipo A" />
                 <label class="btn-upload">
-                  📁 Cambiar logo
-                  <input type="file" accept="image/*" onchange="handleLogoUpload('a', this)" hidden />
+                  Cambiar logo
+                  <input type="file" id="upload-logo-a" accept="image/*" onchange="handleLogoUpload('a', this)" hidden />
                 </label>
-                <button class="btn-upload btn-upload--default" onclick="resetLogo('a')">↩️ Default</button>
+                <button class="btn-upload btn-upload--default" onclick="resetLogo('a')">Default</button>
               </div>
             </div>
           </div>
 
           <!-- Equipo B -->
           <div class="team-config">
-            <h3 class="team-config__title">➡️ Equipo B (derecha)</h3>
+            <h3 class="team-config__title">Equipo B (derecha)</h3>
             <label class="field">
               <span class="field__label">Nombre</span>
               <input type="text" id="input-teamB-name" class="field__input"
@@ -143,10 +143,10 @@
               <div class="logo-upload__row">
                 <img id="preview-logo-b" class="logo-upload__preview" src="Foto2.png" alt="Logo equipo B" />
                 <label class="btn-upload">
-                  📁 Cambiar logo
-                  <input type="file" accept="image/*" onchange="handleLogoUpload('b', this)" hidden />
+                  Cambiar logo
+                  <input type="file" id="upload-logo-b" accept="image/*" onchange="handleLogoUpload('b', this)" hidden />
                 </label>
-                <button class="btn-upload btn-upload--default" onclick="resetLogo('b')">↩️ Default</button>
+                <button class="btn-upload btn-upload--default" onclick="resetLogo('b')">Default</button>
               </div>
             </div>
           </div>
@@ -154,26 +154,35 @@
 
         <!-- FONDO -->
         <section class="panel__section">
-          <h2 class="section__title">🖼️ Fondo del afiche</h2>
+          <h2 class="section__title">Fondo del afiche</h2>
           <div class="bg-grid" id="bg-grid">
             <!-- Generado por JS -->
           </div>
           <label class="btn-upload btn-upload--full">
-            📁 Subir imagen propia como fondo
-            <input type="file" accept="image/*" onchange="handleBgUpload(this)" hidden />
+            Subir imagen propia como fondo
+            <input type="file" id="upload-bg" accept="image/*" onchange="handleBgUpload(this)" hidden />
           </label>
+        </section>
+
+        <!-- MODELO (layout del afiche) -->
+        <section class="panel__section">
+          <h2 class="section__title">Modelo del afiche</h2>
+          <div class="model-grid" id="model-grid">
+            <!-- Generado por JS -->
+          </div>
         </section>
 
         <!-- ESTILO Y COLORES -->
         <section class="panel__section">
-          <h2 class="section__title">🎨 Estilo y colores</h2>
+          <h2 class="section__title">Estilo y colores</h2>
 
           <span class="field__label">Modo de color</span>
           <div class="theme-grid" id="theme-grid">
             <!-- Generado por JS -->
           </div>
+          <button class="btn-toggle" id="btn-toggle-themes" onclick="toggleThemes()">Ver mas (6)</button>
 
-          <label class="field">
+          <label class="field" style="margin-top:14px;">
             <span class="field__label">Color principal (accent)</span>
             <div class="color-row">
               <input type="color" id="input-accent" class="field__color"
@@ -183,38 +192,39 @@
             </div>
           </label>
 
-          <span class="field__label">Tipografía</span>
+          <span class="field__label">Tipografia</span>
           <div class="font-grid" id="font-grid">
             <!-- Generado por JS -->
           </div>
+          <button class="btn-toggle" id="btn-toggle-fonts" onclick="toggleFonts()">Ver mas (3)</button>
         </section>
 
         <!-- EXPORTAR -->
         <section class="panel__section">
-          <h2 class="section__title">💾 Exportar</h2>
+          <h2 class="section__title">Exportar</h2>
 
           <label class="field">
             <span class="field__label">Calidad de imagen</span>
             <div class="scale-selector" id="scale-selector">
               <button class="scale-btn" data-scale="2" onclick="setScale(2)">2x (buena)</button>
               <button class="scale-btn" data-scale="3" onclick="setScale(3)">3x (mejor)</button>
-              <button class="scale-btn" data-scale="4" onclick="setScale(4)">4x (máxima)</button>
+              <button class="scale-btn" data-scale="4" onclick="setScale(4)">4x (maxima)</button>
             </div>
           </label>
 
           <label class="field">
             <span class="field__label">Nombre del archivo (opcional)</span>
             <input type="text" id="input-filename" class="field__input"
-                   placeholder="Se genera automáticamente" oninput="updateFromInput()" />
+                   placeholder="Se genera automaticamente" oninput="updateFromInput()" />
           </label>
         </section>
 
       </div><!-- /.panel__scroll -->
 
-      <!-- BOTÓN GUARDAR — siempre visible al fondo del panel -->
+      <!-- BOTON GUARDAR — siempre visible al fondo del panel -->
       <div class="panel__footer">
         <button id="btn-download" class="btn-download" onclick="downloadPoster()">
-          📸 GUARDAR FOTO
+          GUARDAR FOTO
         </button>
         <div id="download-status" class="download-status" hidden></div>
       </div>
@@ -226,7 +236,7 @@
     <main class="preview-area">
       <div class="preview-wrapper">
 
-        <section id="poster" class="poster" role="img"
+        <section id="poster" class="poster poster--clasico" role="img"
                  aria-label="Vista previa del afiche deportivo">
 
           <!-- Estrellas decorativas -->
@@ -241,7 +251,7 @@
           <header class="header">
             <p class="kicker" id="poster-kicker">PARTIDO RECOPA 2026</p>
             <h1 class="title">
-              <span class="title--gold" id="poster-title1">AÑOS</span>
+              <span class="title--gold" id="poster-title1">ANOS</span>
               <span class="title--light" id="poster-title2">DORADOS</span>
             </h1>
             <div class="meta">
@@ -286,7 +296,7 @@
             <p class="poster-footer__text" id="poster-organiza"></p>
           </footer>
 
-          <!-- ── Overlays premium ── -->
+          <!-- Overlays premium -->
           <span class="grain" aria-hidden="true"></span>
           <span class="vignette" aria-hidden="true"></span>
           <span class="stadium-lights left" aria-hidden="true"></span>
@@ -297,9 +307,9 @@
 
       </div>
 
-      <!-- Botón download fijo en mobile -->
+      <!-- Boton download fijo en mobile -->
       <button id="btn-download-mobile" class="btn-download btn-download--mobile" onclick="downloadPoster()">
-        📸 GUARDAR FOTO
+        GUARDAR FOTO
       </button>
     </main>
 

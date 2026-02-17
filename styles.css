@@ -1,7 +1,7 @@
 /* ============================================================
    Generador de Afiches Deportivos — CSS completo
-   1. Variables · 2. Reset · 3. App layout · 4. Panel
-   5. Poster premium · 6. Overlays · 7. Responsive
+   1. Variables  2. Reset  3. App layout  4. Panel
+   5. Poster premium  6. Overlays  7. Modelos  8. Responsive
    ============================================================ */
 
 /* ═══════════════════════════════════════════════════════════════
@@ -115,7 +115,7 @@ body {
   background: rgba(0,0,0,.25);
 }
 
-/* ── Secciones ── */
+/* -- Secciones -- */
 
 .panel__section {
   padding: 20px 24px;
@@ -130,7 +130,7 @@ body {
   color: #fff;
 }
 
-/* ── Campos / inputs ── */
+/* -- Campos / inputs -- */
 
 .field {
   display: block;
@@ -183,7 +183,7 @@ body {
   flex: 1;
 }
 
-/* ── Color picker ── */
+/* -- Color picker -- */
 
 .color-row {
   display: flex;
@@ -209,7 +209,7 @@ body {
   border-radius: 8px;
 }
 
-/* ── Acciones rápidas ── */
+/* -- Acciones rapidas -- */
 
 .quick-actions {
   display: grid;
@@ -242,7 +242,7 @@ body {
 .btn-action--reset { border-color: rgba(255,80,80,.20); }
 .btn-action--reset:hover { background: rgba(255,80,80,.08); }
 
-/* ── Equipos / logos ── */
+/* -- Equipos / logos -- */
 
 .team-config {
   margin-bottom: 20px;
@@ -309,7 +309,7 @@ body {
   border-radius: 12px;
 }
 
-/* ── Background grid ── */
+/* -- Background grid -- */
 
 .bg-grid {
   display: grid;
@@ -351,13 +351,13 @@ body {
   text-align: center;
 }
 
-/* ── Theme grid ── */
+/* -- Theme grid -- */
 
 .theme-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .theme-card {
@@ -377,6 +377,17 @@ body {
 .theme-card--active {
   border-color: var(--gold-2) !important;
   box-shadow: 0 0 0 2px var(--gold-2);
+}
+
+/* Extra theme/font cards: hidden unless grid is expanded */
+.theme-card--extra,
+.font-card--extra {
+  display: none;
+}
+
+.grid--expanded .theme-card--extra,
+.grid--expanded .font-card--extra {
+  display: block;
 }
 
 .theme-card__swatch {
@@ -404,13 +415,14 @@ body {
   line-height: 1.2;
 }
 
-/* ── Font grid ── */
+/* -- Font grid -- */
 
 .font-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-top: 8px;
+  margin-bottom: 10px;
 }
 
 .font-card {
@@ -447,7 +459,84 @@ body {
   opacity: .7;
 }
 
-/* ── Scale selector ── */
+/* -- "Ver mas" toggle button -- */
+
+.btn-toggle {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  margin-top: 4px;
+  border: 1px dashed rgba(255,255,255,.15);
+  background: rgba(255,255,255,.02);
+  color: rgba(255,255,255,.65);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  text-align: center;
+  transition: background .2s, color .2s, border-color .2s;
+}
+
+.btn-toggle:hover {
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  border-color: rgba(255,255,255,.25);
+}
+
+/* -- Model grid -- */
+
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.model-card {
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  font-family: inherit;
+  color: #fff;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.model-card:hover { border-color: rgba(255,255,255,.22); }
+
+.model-card--active {
+  border-color: var(--gold-2) !important;
+  box-shadow: 0 0 0 2px var(--gold-2);
+}
+
+.model-card__icon {
+  display: block;
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--gold-2);
+  margin-bottom: 6px;
+  white-space: pre;
+  opacity: .8;
+}
+
+.model-card__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.model-card__desc {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  opacity: .55;
+}
+
+/* -- Scale selector -- */
 
 .scale-selector {
   display: flex;
@@ -477,7 +566,7 @@ body {
   box-shadow: 0 0 0 2px var(--gold-2);
 }
 
-/* ── Botón GUARDAR FOTO (el más importante) ── */
+/* -- Boton GUARDAR FOTO (el mas importante) -- */
 
 .btn-download {
   cursor: pointer;
@@ -515,7 +604,7 @@ body {
   display: none;
 }
 
-/* ── Status messages ── */
+/* -- Status messages -- */
 
 .download-status {
   margin-top: 10px;
@@ -600,7 +689,7 @@ body {
 }
 
 .star::before {
-  content: "★";
+  content: "\2605";
 }
 
 /* Header */
@@ -882,7 +971,7 @@ body {
   opacity: .75;
 }
 
-/* Viñeta */
+/* Vinieta */
 .vignette {
   position: absolute;
   inset: 0;
@@ -904,7 +993,149 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   7. RESPONSIVE
+   7. MODELOS (variantes de layout del poster)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* -- Clasico: todo por defecto, no requiere overrides -- */
+.poster--clasico { /* default layout */ }
+
+/* -- Epico: titulo mas grande y dramatico, matchup mas compacto -- */
+.poster--epico .title {
+  font-size: clamp(68px, 11vw, 100px);
+  line-height: .88;
+}
+
+.poster--epico .header {
+  padding-top: 50px;
+  padding-bottom: 6px;
+}
+
+.poster--epico .kicker {
+  font-size: 15px;
+  letter-spacing: .25em;
+}
+
+.poster--epico .matchup {
+  padding-top: 14px;
+  gap: 12px;
+}
+
+.poster--epico .logo-frame {
+  width: 120px;
+  height: 120px;
+}
+
+.poster--epico .team-name {
+  font-size: 17px;
+}
+
+.poster--epico .divider {
+  margin-top: 6px;
+}
+
+/* -- Versus: foco en VS y equipos, header compacto -- */
+.poster--versus .header {
+  padding-top: 48px;
+  padding-bottom: 4px;
+}
+
+.poster--versus .title {
+  font-size: clamp(42px, 7vw, 62px);
+  line-height: .90;
+}
+
+.poster--versus .matchup {
+  padding-top: 18px;
+  gap: 14px;
+}
+
+.poster--versus .logo-frame {
+  width: 150px;
+  height: 150px;
+}
+
+.poster--versus .vs-badge {
+  width: 62px;
+  height: 62px;
+  font-size: 22px;
+  border-width: 3px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.6), 0 0 30px rgba(240,180,58,.15);
+}
+
+.poster--versus .team-name {
+  font-size: 22px;
+  letter-spacing: .22em;
+}
+
+.poster--versus .team-city {
+  font-size: 13px;
+}
+
+/* -- Compacto: todo mas ajustado, ideal para imprimir chico -- */
+.poster--compacto .header {
+  padding: 42px 20px 8px;
+}
+
+.poster--compacto .kicker {
+  font-size: 11px;
+  padding: 5px 12px;
+}
+
+.poster--compacto .title {
+  font-size: clamp(46px, 8vw, 68px);
+  line-height: .90;
+}
+
+.poster--compacto .meta {
+  margin: 12px auto 6px;
+  gap: 8px;
+}
+
+.poster--compacto .pill {
+  padding: 7px 10px;
+}
+
+.poster--compacto .pill__value {
+  font-size: 12px;
+}
+
+.poster--compacto .subtitle {
+  font-size: 11px;
+  padding: 6px 14px;
+}
+
+.poster--compacto .divider {
+  margin-top: 6px;
+}
+
+.poster--compacto .matchup {
+  padding: 14px 18px 6px;
+  gap: 10px;
+}
+
+.poster--compacto .logo-frame {
+  width: 115px;
+  height: 115px;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.poster--compacto .vs-badge {
+  width: 42px;
+  height: 42px;
+  font-size: 14px;
+}
+
+.poster--compacto .team-name {
+  font-size: 16px;
+}
+
+.poster--compacto .team-city {
+  font-size: 11px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   8. RESPONSIVE
    ═══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 960px) {
@@ -979,6 +1210,10 @@ body {
   .theme-grid,
   .font-grid {
     grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .model-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .team-name {
